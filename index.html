@@ -3,36 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Website</title>
-    <link rel="stylesheet" href="/css/main.css">
+    <title>Геворг — мои игры</title>
+    <meta name="description" content="Геворг, 17 лет. Любимые PC-игры: Counter-Strike, DOTA 2, Fortnite.">
+    <meta name="theme-color" content="#0c0d0b">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230c0d0b'/%3E%3Ctext x='32' y='44' font-family='Arial' font-weight='700' font-size='34' text-anchor='middle' fill='%23e3a64a'%3EГ%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+    <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-    <h1>Геворг</h1>
-    <p>Я люблю играть в пк игры. Мне 17 лет.<br> Я учусь в гупае.</p>
-    <h2>Любимые игры</h2>
-    <p><strong>Counter-Strike</strong> - <em>моя любимая игра</em>. Она интересна своим геймплеем и общением внутри игры со своими сокомандниками.</p>
-    <h3>Мой топ игр</h3>
-    <ol>
-        <li>Counter-Strike<br>
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSH90zlj-dGji-p4taBIEZ9GAdHLDYIZ6hXUfT4HRA7RdfjIqx8Q5LlznFtOu46KGw0QlQR5J02&s=10" alt="Counter-Strike" width="100"><br>
-            <a href="https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/" target="_blank"><em>Начать играть</em></a>
-        </li>
-            <li>DOTA 2<br>
-            <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/570/capsule_616x353.jpg?t=1769535998" alt="DOTA 2" width="100"><br>
-            <a href="https://store.steampowered.com/app/570/Defense_of_the_Planet/" target="_blank"><em>Начать играть</em></a>
-        </li>
-        <li>Fortnite<br>
-            <img src="https://play-lh.googleusercontent.com/nUzo52s5UVOrwyLCfFXM0PKgInAaLaYe-hrUedFAT3gMbhKBn0HlvnFai7Ao5GTEB51IvWtIC3szG2O-wxAPIA" alt="Fortnite" width="100"><br>
-            <a href="https://www.epicgames.com/fortnite" target="_blank"><em>Начать играть</em></a>
-        </li>
-        </ol>
-<h4>Платформы</h4>
-    <ul>
-        <li>Steam</li>
-        <li>Epic Games</li>
-        <li>Blue Stack</li>
-    </ul>
+    <a class="skip-link" href="#main">Перейти к содержимому</a>
 
+    <header class="nav-wrap">
+        <nav class="nav" aria-label="Навигация по странице">
+            <a class="nav__logo" href="#top">Геворг<span>.</span></a>
+            <ul class="nav__links">
+                <li><a href="#favorite">Любимая</a></li>
+                <li><a href="#top-games">Топ игр</a></li>
+                <li><a href="#platforms">Платформы</a></li>
+            </ul>
+        </nav>
+    </header>
 
+    <main id="main">
+        <!-- Первый экран -->
+        <section class="hero" id="top">
+            <div class="container hero__grid">
+                <div class="hero__text">
+                    <p class="eyebrow reveal"><span class="status-dot"></span>PC-геймер · 17 лет</p>
+                    <h1 class="reveal">Геворг</h1>
+                    <p class="lead reveal">Я люблю играть в пк игры. Мне 17 лет.<br> Я учусь в гупае.</p>
+                    <a class="btn reveal" href="#top-games">
+                        Смотреть мой топ
+                        <span class="btn__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+                        </span>
+                    </a>
+                </div>
+
+                <div class="hero__art reveal">
+                    <div class="bezel bezel--tilt">
+                        <div class="bezel__core hero__card">
+                            <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/header.jpg" alt="Обложка Counter-Strike 2">
+                            <div class="hero__card-meta">
+                                <span class="mono">Сейчас играю</span>
+                                <strong>Counter-Strike</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero__stat bezel">
+                        <div class="bezel__core">
+                            <span class="mono">Игр в топе</span>
+                            <strong>03</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Любимая игра -->
+        <section class="section" id="favorite">
+            <div class="container favorite">
+                <p class="eyebrow reveal">Выбор №1</p>
+                <h2 class="reveal">Любимые игры</h2>
+                <blockquote class="favorite__quote reveal">
+                    <p><strong>Counter-Strike</strong> - <em>моя любимая игра</em>. Она интересна своим геймплеем и общением внутри игры со своими сокомандниками.</p>
+                </blockquote>
+            </div>
+        </section>
+
+        <!-- Топ игр -->
+        <section class="section" id="top-games">
+            <div class="container">
+                <div class="section__head">
+                    <h3 class="reveal">Мой топ игр</h3>
+                    <p class="mono muted reveal">Нажми «Начать играть», чтобы открыть игру</p>
+                </div>
+
+                <ol class="games">
+                    <li class="game game--first reveal">
+                        <div class="bezel">
+                            <div class="bezel__core game__core">
+                                <div class="game__media">
+                                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/header.jpg" alt="Counter-Strike" loading="lazy">
+                                </div>
+                                <div class="game__body">
+                                    <span class="game__rank mono">#01</span>
+                                    <h4>Counter-Strike</h4>
+                                    <a class="btn btn--small" href="https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/" target="_blank" rel="noopener">
+                                        <em>Начать играть</em>
+                                        <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="game reveal">
+                        <div class="bezel">
+                            <div class="bezel__core game__core">
+                                <div class="game__media">
+                                    <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/570/capsule_616x353.jpg?t=1769535998" alt="DOTA 2" loading="lazy">
+                                </div>
+                                <div class="game__body">
+                                    <span class="game__rank mono">#02</span>
+                                    <h4>DOTA 2</h4>
+                                    <a class="btn btn--small" href="https://store.steampowered.com/app/570/Defense_of_the_Planet/" target="_blank" rel="noopener">
+                                        <em>Начать играть</em>
+                                        <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="game reveal">
+                        <div class="bezel">
+                            <div class="bezel__core game__core">
+                                <div class="game__media game__media--square">
+                                    <img src="https://play-lh.googleusercontent.com/nUzo52s5UVOrwyLCfFXM0PKgInAaLaYe-hrUedFAT3gMbhKBn0HlvnFai7Ao5GTEB51IvWtIC3szG2O-wxAPIA" alt="Fortnite" loading="lazy">
+                                </div>
+                                <div class="game__body">
+                                    <span class="game__rank mono">#03</span>
+                                    <h4>Fortnite</h4>
+                                    <a class="btn btn--small" href="https://www.epicgames.com/fortnite" target="_blank" rel="noopener">
+                                        <em>Начать играть</em>
+                                        <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Платформы -->
+        <section class="section section--last" id="platforms">
+            <div class="container platforms">
+                <h4 class="reveal">Платформы</h4>
+                <ul class="platforms__list">
+                    <li class="reveal"><span class="mono">01</span>Steam</li>
+                    <li class="reveal"><span class="mono">02</span>Epic Games</li>
+                    <li class="reveal"><span class="mono">03</span>Blue Stack</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer__inner">
+            <span>Геворг · 2026</span>
+            <a href="#top">Наверх</a>
+        </div>
+    </footer>
+
+    <script>
+        // Плавное появление блоков при прокрутке
+        const items = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        items.forEach((el, i) => {
+            el.style.setProperty('--delay', (i % 4) * 90 + 'ms');
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>

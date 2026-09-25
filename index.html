@@ -3,50 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Геворг — мои игры</title>
-    <meta name="description" content="Геворг, 17 лет. Любимые PC-игры: Counter-Strike, DOTA 2, Fortnite.">
+    <title>Мои игры</title>
+    <meta name="description" content="Любимые PC-игры: Counter-Strike, DOTA 2, Fortnite. Рулетка «во что сыграть» и список игр, которые хочу попробовать.">
     <meta name="theme-color" content="#0c0d0b">
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230c0d0b'/%3E%3Ctext x='32' y='44' font-family='Arial' font-weight='700' font-size='34' text-anchor='middle' fill='%23e3a64a'%3EГ%3C/text%3E%3C/svg%3E">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230c0d0b'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='700' font-size='26' text-anchor='middle' fill='%23e3a64a'%3EGG%3C/text%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="main.css">
-    <script>document.documentElement.classList.add('js');</script>
+    <script>
+        // применяем сохранённые настройки до отрисовки, чтобы не было мигания
+        document.documentElement.classList.add('js');
+        try {
+            const s = JSON.parse(localStorage.getItem('gg-settings') || '{}');
+            if (s.accent) document.documentElement.dataset.accent = s.accent;
+            if (s.motion === false) document.documentElement.classList.add('no-motion');
+            if (s.grain === false) document.documentElement.classList.add('no-grain');
+        } catch (e) {}
+    </script>
+    <script src="app.js" defer></script>
 </head>
 <body>
     <a class="skip-link" href="#main">Перейти к содержимому</a>
+    <div class="progress" aria-hidden="true"></div>
 
+    <!-- ========== Меню ========== -->
     <header class="nav-wrap">
         <nav class="nav" aria-label="Навигация по странице">
-            <a class="nav__logo" href="#top">Геворг<span>.</span></a>
+            <a class="nav__logo" href="#top">GG<span>.</span></a>
             <ul class="nav__links">
-                <li><a href="#favorite">Любимая</a></li>
-                <li><a href="#top-games">Топ игр</a></li>
+                <li><a href="#top-games">Игры</a></li>
+                <li><a href="#roulette">Рулетка</a></li>
+                <li><a href="#wishlist">Хочу сыграть</a></li>
                 <li><a href="#platforms">Платформы</a></li>
             </ul>
+            <button class="icon-btn" popovertarget="settings" aria-label="Настройки сайта">
+                <svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>
+            </button>
+            <button class="icon-btn nav__burger" popovertarget="menu" aria-label="Открыть меню">
+                <svg viewBox="0 0 24 24"><path d="M4 8h16M4 16h16"/></svg>
+            </button>
         </nav>
     </header>
 
+    <!-- Настройки -->
+    <div id="settings" class="settings" popover>
+        <p class="settings__title">Настройки</p>
+
+        <fieldset class="settings__group">
+            <legend class="mono muted">Цвет акцента</legend>
+            <div class="swatches">
+                <label class="swatch" style="--sw: #e3a64a"><input type="radio" name="accent" value="amber" checked><span>Янтарь</span></label>
+                <label class="swatch" style="--sw: #6fcf97"><input type="radio" name="accent" value="mint"><span>Мята</span></label>
+                <label class="swatch" style="--sw: #ef7d6b"><input type="radio" name="accent" value="coral"><span>Коралл</span></label>
+                <label class="swatch" style="--sw: #7fb6e8"><input type="radio" name="accent" value="ice"><span>Лёд</span></label>
+            </div>
+        </fieldset>
+
+        <label class="toggle">
+            <span>Анимации</span>
+            <input type="checkbox" id="opt-motion" checked>
+            <span class="toggle__track" aria-hidden="true"></span>
+        </label>
+        <label class="toggle">
+            <span>Зерно на фоне</span>
+            <input type="checkbox" id="opt-grain" checked>
+            <span class="toggle__track" aria-hidden="true"></span>
+        </label>
+
+        <button class="text-btn" id="opt-reset" type="button">Сбросить настройки</button>
+    </div>
+
+    <!-- Мобильное меню -->
+    <div id="menu" class="menu" popover>
+        <button class="icon-btn menu__close" popovertarget="menu" popovertargetaction="hide" aria-label="Закрыть меню">
+            <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+        <ul>
+            <li><a href="#top-games">Игры</a></li>
+            <li><a href="#roulette">Рулетка</a></li>
+            <li><a href="#wishlist">Хочу сыграть</a></li>
+            <li><a href="#platforms">Платформы</a></li>
+        </ul>
+    </div>
+
     <main id="main">
-        <!-- Первый экран -->
+        <!-- ========== Первый экран ========== -->
         <section class="hero" id="top">
             <div class="container hero__grid">
                 <div class="hero__text">
                     <p class="eyebrow reveal"><span class="status-dot"></span>PC-геймер · 17 лет</p>
-                    <h1 class="reveal">Геворг</h1>
+                    <h1 class="reveal">Мои игры</h1>
                     <p class="lead reveal">Я люблю играть в пк игры. Мне 17 лет.<br> Я учусь в гупае.</p>
-                    <a class="btn reveal" href="#top-games">
-                        Смотреть мой топ
-                        <span class="btn__icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
-                        </span>
-                    </a>
+                    <div class="hero__actions reveal">
+                        <a class="btn" href="#top-games">
+                            Смотреть топ
+                            <span class="btn__icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+                            </span>
+                        </a>
+                        <a class="link-arrow" href="#roulette">Во что сыграть сегодня?</a>
+                    </div>
                 </div>
 
                 <div class="hero__art reveal">
                     <div class="bezel bezel--tilt">
                         <div class="bezel__core hero__card">
-                            <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/header.jpg" alt="Обложка Counter-Strike 2">
+                            <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/header.jpg" alt="Обложка Counter-Strike 2" fetchpriority="high">
                             <div class="hero__card-meta">
                                 <span class="mono">Сейчас играю</span>
                                 <strong>Counter-Strike</strong>
@@ -63,7 +126,15 @@
             </div>
         </section>
 
-        <!-- Любимая игра -->
+        <!-- Бегущая строка -->
+        <div class="marquee" aria-hidden="true">
+            <div class="marquee__track">
+                <span>Counter-Strike</span><i></i><span>DOTA 2</span><i></i><span>Fortnite</span><i></i><span>Steam</span><i></i><span>Epic Games</span><i></i><span>BlueStacks</span><i></i>
+                <span>Counter-Strike</span><i></i><span>DOTA 2</span><i></i><span>Fortnite</span><i></i><span>Steam</span><i></i><span>Epic Games</span><i></i><span>BlueStacks</span><i></i>
+            </div>
+        </div>
+
+        <!-- ========== Любимая игра ========== -->
         <section class="section" id="favorite">
             <div class="container favorite">
                 <p class="eyebrow reveal">Выбор №1</p>
@@ -74,78 +145,146 @@
             </div>
         </section>
 
-        <!-- Топ игр -->
+        <!-- ========== Топ игр ========== -->
         <section class="section" id="top-games">
             <div class="container">
                 <div class="section__head">
-                    <h3 class="reveal">Мой топ игр</h3>
-                    <p class="mono muted reveal">Нажми «Начать играть», чтобы открыть игру</p>
+                    <h2 class="reveal">Мой топ игр</h2>
+                    <div class="chips reveal" role="group" aria-label="Фильтр по жанру">
+                        <button class="chip is-active" data-filter="all" aria-pressed="true">Все</button>
+                        <button class="chip" data-filter="shooter" aria-pressed="false">Шутер</button>
+                        <button class="chip" data-filter="moba" aria-pressed="false">MOBA</button>
+                        <button class="chip" data-filter="royale" aria-pressed="false">Королевская битва</button>
+                    </div>
                 </div>
 
                 <ol class="games">
-                    <li class="game game--first reveal">
+                    <li class="game game--first reveal" data-genre="shooter">
                         <div class="bezel">
                             <div class="bezel__core game__core">
                                 <div class="game__media">
                                     <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/header.jpg" alt="Counter-Strike" loading="lazy">
+                                    <span class="tag">Шутер</span>
                                 </div>
                                 <div class="game__body">
                                     <span class="game__rank mono">#01</span>
-                                    <h4>Counter-Strike</h4>
-                                    <a class="btn btn--small" href="https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/" target="_blank" rel="noopener">
-                                        <em>Начать играть</em>
-                                        <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-                                    </a>
+                                    <h3>Counter-Strike</h3>
+                                    <div class="game__actions">
+                                        <a class="btn btn--small" href="https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/" target="_blank" rel="noopener">
+                                            <em>Начать играть</em>
+                                            <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+                                        </a>
+                                        <button class="text-btn" data-details="cs">Подробнее</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </li>
-                    <li class="game reveal">
+                    <li class="game reveal" data-genre="moba">
                         <div class="bezel">
                             <div class="bezel__core game__core">
                                 <div class="game__media">
                                     <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/570/capsule_616x353.jpg?t=1769535998" alt="DOTA 2" loading="lazy">
+                                    <span class="tag">MOBA</span>
                                 </div>
                                 <div class="game__body">
                                     <span class="game__rank mono">#02</span>
-                                    <h4>DOTA 2</h4>
-                                    <a class="btn btn--small" href="https://store.steampowered.com/app/570/Defense_of_the_Planet/" target="_blank" rel="noopener">
-                                        <em>Начать играть</em>
-                                        <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-                                    </a>
+                                    <h3>DOTA 2</h3>
+                                    <div class="game__actions">
+                                        <a class="btn btn--small" href="https://store.steampowered.com/app/570/Defense_of_the_Planet/" target="_blank" rel="noopener">
+                                            <em>Начать играть</em>
+                                            <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+                                        </a>
+                                        <button class="text-btn" data-details="dota">Подробнее</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </li>
-                    <li class="game reveal">
+                    <li class="game reveal" data-genre="royale">
                         <div class="bezel">
                             <div class="bezel__core game__core">
                                 <div class="game__media game__media--square">
                                     <img src="https://play-lh.googleusercontent.com/nUzo52s5UVOrwyLCfFXM0PKgInAaLaYe-hrUedFAT3gMbhKBn0HlvnFai7Ao5GTEB51IvWtIC3szG2O-wxAPIA" alt="Fortnite" loading="lazy">
+                                    <span class="tag">Королевская битва</span>
                                 </div>
                                 <div class="game__body">
                                     <span class="game__rank mono">#03</span>
-                                    <h4>Fortnite</h4>
-                                    <a class="btn btn--small" href="https://www.epicgames.com/fortnite" target="_blank" rel="noopener">
-                                        <em>Начать играть</em>
-                                        <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-                                    </a>
+                                    <h3>Fortnite</h3>
+                                    <div class="game__actions">
+                                        <a class="btn btn--small" href="https://www.epicgames.com/fortnite" target="_blank" rel="noopener">
+                                            <em>Начать играть</em>
+                                            <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+                                        </a>
+                                        <button class="text-btn" data-details="fortnite">Подробнее</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </li>
                 </ol>
+                <p class="games__empty mono muted" hidden>В этом жанре пока нет игр из топа.</p>
             </div>
         </section>
 
-        <!-- Платформы -->
+        <!-- ========== Рулетка ========== -->
+        <section class="section" id="roulette">
+            <div class="container roulette">
+                <div class="roulette__text">
+                    <p class="eyebrow reveal">Не могу выбрать</p>
+                    <h2 class="reveal">Во что сыграть сегодня?</h2>
+                    <p class="muted reveal">Нажми кнопку, и сайт выберет одну игру из топа или из списка «Хочу сыграть».</p>
+                </div>
+                <div class="bezel reveal">
+                    <div class="bezel__core roulette__box">
+                        <p class="mono muted">Сегодня играем в</p>
+                        <p class="roulette__result" id="roulette-result" aria-live="polite">???</p>
+                        <button class="btn" id="roulette-btn" type="button">
+                            Крутить
+                            <span class="btn__icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5"/></svg>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== Вишлист ========== -->
+        <section class="section" id="wishlist">
+            <div class="container wishlist">
+                <div>
+                    <p class="eyebrow reveal">Список</p>
+                    <h2 class="reveal">Хочу сыграть</h2>
+                    <p class="muted reveal">Игры, которые хочется попробовать. Список сохраняется в этом браузере.</p>
+                </div>
+                <div class="reveal">
+                    <form class="wish-form" id="wish-form" novalidate>
+                        <label for="wish-input" class="mono muted">Название игры</label>
+                        <div class="wish-form__row">
+                            <input id="wish-input" type="text" maxlength="40" placeholder="Например, Minecraft" autocomplete="off">
+                            <button class="btn btn--small" type="submit">
+                                <em>Добавить</em>
+                                <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+                            </button>
+                        </div>
+                        <p class="wish-form__error" id="wish-error" role="alert"></p>
+                    </form>
+                    <ul class="wish-list" id="wish-list"></ul>
+                    <p class="wish-empty muted" id="wish-empty">Пока пусто. Добавь первую игру.</p>
+                    <p class="wish-count mono muted" id="wish-count"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== Платформы ========== -->
         <section class="section section--last" id="platforms">
             <div class="container platforms">
-                <h4 class="reveal">Платформы</h4>
+                <h2 class="reveal">Платформы</h2>
                 <ul class="platforms__list">
-                    <li class="reveal"><span class="mono">01</span>Steam</li>
-                    <li class="reveal"><span class="mono">02</span>Epic Games</li>
-                    <li class="reveal"><span class="mono">03</span>Blue Stack</li>
+                    <li class="reveal"><a href="https://store.steampowered.com/" target="_blank" rel="noopener"><span class="mono">01</span>Steam<span class="platforms__note muted">CS и DOTA 2</span></a></li>
+                    <li class="reveal"><a href="https://store.epicgames.com/" target="_blank" rel="noopener"><span class="mono">02</span>Epic Games<span class="platforms__note muted">Fortnite</span></a></li>
+                    <li class="reveal"><a href="https://www.bluestacks.com/" target="_blank" rel="noopener"><span class="mono">03</span>BlueStacks<span class="platforms__note muted">Мобильные игры на PC</span></a></li>
                 </ul>
             </div>
         </section>
@@ -153,26 +292,27 @@
 
     <footer class="footer">
         <div class="container footer__inner">
-            <span>Геворг · 2026</span>
+            <span>Сделано на HTML, CSS и JS · 2026</span>
             <a href="#top">Наверх</a>
         </div>
     </footer>
 
-    <script>
-        // Плавное появление блоков при прокрутке
-        const items = document.querySelectorAll('.reveal');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.15 });
-        items.forEach((el, i) => {
-            el.style.setProperty('--delay', (i % 4) * 90 + 'ms');
-            observer.observe(el);
-        });
-    </script>
+    <!-- Окно «Подробнее» -->
+    <dialog class="modal" id="game-modal" closedby="any" aria-labelledby="modal-title">
+        <div class="modal__media"><img id="modal-img" src="" alt=""></div>
+        <div class="modal__body">
+            <p class="mono modal__genre" id="modal-genre"></p>
+            <h3 id="modal-title"></h3>
+            <p class="muted" id="modal-text"></p>
+            <dl class="modal__facts" id="modal-facts"></dl>
+            <div class="modal__actions">
+                <a class="btn" id="modal-link" href="#" target="_blank" rel="noopener">
+                    Начать играть
+                    <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+                </a>
+                <form method="dialog"><button class="text-btn">Закрыть</button></form>
+            </div>
+        </div>
+    </dialog>
 </body>
 </html>
